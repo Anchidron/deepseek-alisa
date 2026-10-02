@@ -21,8 +21,8 @@ async def main(request: Request):
             "Content-Type": "application/json"
         },
         json={
-            # Актуальная бесплатная модель DeepSeek на OpenRouter
-            "model": "deepseek/deepseek-v4-flash:free",
+            # Автоматический выбор бесплатной модели
+            "model": "openrouter/free",
             "messages": [{"role": "user", "content": user_text}],
         }
     )
