@@ -20,6 +20,10 @@ async def main(request: Request):
             "messages": [{"role": "user", "content": user_text}],
         }
     )
+
+    print("DEEPSEEK STATUS:", response.status_code)
+    print("DEEPSEEK BODY:", response.text)
+
     answer = response.json()["choices"][0]["message"]["content"]
 
     return {
