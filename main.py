@@ -4,9 +4,7 @@ import requests
 
 app = FastAPI()
 
-# Адрес API OpenRouter
 DEEPSEEK_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-# Ключ берём из переменной окружения OPENROUTER_API_KEY
 DEEPSEEK_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 @app.post("/")
@@ -22,11 +20,15 @@ async def main(request: Request):
                 "Content-Type": "application/json"
             },
             json={
-                "model": "openrouter/free",
-                "messages": [{"role": "user", "content": user_text}],
-                "max_tokens": 300  # Ограничиваем длину ответа для скорости
+                # Более быстрая бесплатная модель без reasoning
+                "model": "deepseek/deepseek-chat-v3-0324:free",
+                "messages": [
+                    {"role": "system", "content": "Отвечай кратко, не более 2-3 предложений."},
+                    {"role": "user", "content": user_text}
+                ],
+                "max_tokens": 150  # Ещё короче для скорости
             },
-            timeout=4  # Ждём не больше 4 секунд, чтобы уложиться в лимит Алисы
+            timeout=4  # Ждём не больше 4 секунд
         )
 
         print("OPENROUTER STATUS:", response.status_code)
@@ -36,7 +38,7 @@ async def main(request: Request):
 
     except Exception as e:
         print("ERROR:", e)
-        answer = "Извините, я не успел подумать. Попробуйте спросить что-нибудь покороче."
+        answer = "Извините, я не успел подумать. Попробуйте спросить покороче."
 
     return {
         "version": body["version"],
