@@ -21,7 +21,7 @@ async def main(request: Request):
             },
             json={
                 # Более быстрая бесплатная модель без reasoning
-                "model": "deepseek/deepseek-chat-v3-0324:free",
+                "model": "google/gemini-2.0-flash-exp:free"
                 "messages": [
                     {"role": "system", "content": "Отвечай кратко, не более 2-3 предложений."},
                     {"role": "user", "content": user_text}
