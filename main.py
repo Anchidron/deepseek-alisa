@@ -22,14 +22,15 @@ async def main(request: Request):
                 "Content-Type": "application/json"
             },
             json={
-                "model": "google/gemini-2.0-flash-exp:free",
+                # Актуальная бесплатная модель Gemma 4 от Google
+                "model": "google/gemma-4-26b-a4b-it:free",
                 "messages": [
                     {"role": "system", "content": "Отвечай кратко, не более 2-3 предложений."},
                     {"role": "user", "content": user_text}
                 ],
-                "max_tokens": 200
+                "max_tokens": 200  # Ограничиваем длину ответа для скорости
             },
-            timeout=4
+            timeout=4  # Ждём не больше 4 секунд, чтобы уложиться в лимит Алисы
         )
 
         print("OPENROUTER STATUS:", response.status_code)
